@@ -7,14 +7,18 @@ number_players = 0
 minecraft_path = os.path.abspath("") # gets current directory
 
 def copyDirectory(src, dest):
-	try:
-		shutil.copytree(src, dest)
+    try:
+        shutil.copytree(src, dest)
 	# Directories are the same
-	except shutil.Error as e:
-		print('Directory not copied. Error: %s' % e)
-	# Any error saying that the directory doesn't exist
-	except OSError as e:
-		print('Directory not copied. Error: %s' % e)
+    except shutil.Error as e:
+        print('Directory not copied. Error: %s' % e)
+        # Any error saying that the directory doesn't exist
+    except OSError as e:
+        print('Directory not copied. Error: %s' % e)
+
+
+def zip_folder(src, dest):
+    shutil.make_archive(dest, 'zip', src)
 
 def ReadLogs(number_players):
     print(f"number of players: {number_players}")
@@ -50,9 +54,11 @@ def DeleteOldBackup(num,path):
 while True:
     if ReadLogs(number_players):
         print("Waiting for next backup interval")
-        # time.sleep(60*120)
+        time.sleep(60*120)
         date = strftime("%Y_%m_%d_%Hh%Mm%Ss", localtime())
         print(f"Backup created as {minecraft_path}\Backups\world_{date}")
-        copyDirectory(minecraft_path + "\world", minecraft_path + "\Backups\world_"+ date)
+        #copyDirectory(minecraft_path + "\world", minecraft_path + "\Backups\world_"+ date)
+        zip_folder(minecraft_path + "\world", minecraft_path + "\Backups\world_"+ date)
+
         DeleteOldBackup(10, minecraft_path) #num =  number of backups to keep
     time.sleep(60)
