@@ -42,7 +42,7 @@ def read_logs(players):
             lines[x][y] = (str(lines[x][y], 'utf-8'))
             if "joined the game" in lines[x][y]:
                 players += 1
-            if "lost connection: Disconnected" in lines[x][y] or "left the game" in lines[x][y]:
+            if "left the game" in lines[x][y]:
                 players -= 1
                 if players < 0:
                     players = 0  # prevents negative player numbers
