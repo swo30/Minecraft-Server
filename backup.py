@@ -19,7 +19,7 @@ else:
 
 
 def accept(path):
-    if path in [f"world{slash}session.lock"]:  # ignores session.lock and prevents crashes on windows
+    if path in [f"session.lock"]:  # ignores session.lock and prevents crashes on windows
         print("skipping %r" % path)
         return False
     return _os_path_isfile(path)
@@ -62,7 +62,7 @@ while True:
         current_time = datetime.datetime.now()
         backup_time = current_time + datetime.timedelta(hours=BACKUP_INTERVAL)
         print(f"Next backup scheduled at {backup_time.hour:02d}:{backup_time.minute:02d}")
-        time.sleep(60 * 60 * BACKUP_INTERVAL)
+        # time.sleep(60 * 60 * BACKUP_INTERVAL)
         print(f"Starting backup...")
         current_time_string = f"{current_time.year}_{current_time.month:02d}_{current_time.day:02d}_{current_time.hour:02d}h_{current_time.minute:02d}m"
         zip_folder(f"{minecraft_path}{slash}world", f"{minecraft_path}{slash}Backups{slash}world_{current_time_string}")
